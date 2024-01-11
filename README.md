@@ -12,6 +12,12 @@ dRehmFlight has been used as a teaching tool for aircraft stabilization and flig
 
 This code is entirely free to use and will stay that way forever. If you found this helpful for your project, donations are appreciated: [Paypal Donation](https://www.paypal.me/NicholasRehm)
 
+The flight controller has been edited to include the following features:
+
+ - GPS waypoint navigation
+- Autonomous takeoff and landing
+
+
 **New in Beta 1.3:**
 
 - Spektrum DSM Satellite RX Support

@@ -399,7 +399,7 @@ void loop() {
 
   //Print data at 100hz (uncomment one at a time for troubleshooting) - SELECT ONE:
   //printRadioData();     //Prints radio pwm values (expected: 1000 to 2000)
-  printDesiredState();  //Prints desired vehicle state commanded in either degrees or deg/sec (expected: +/- maxAXIS for roll, pitch, yaw; 0 to 1 for throttle)
+  //printDesiredState();  //Prints desired vehicle state commanded in either degrees or deg/sec (expected: +/- maxAXIS for roll, pitch, yaw; 0 to 1 for throttle)
   //printGyroData();      //Prints filtered gyro data direct from IMU (expected: ~ -250 to 250, 0 at rest)
   //printAccelData();     //Prints filtered accelerometer data direct from IMU (expected: ~ -2 to 2; x,y 0 when level, z 1 when level)
   //printMagData();       //Prints filtered magnetometer data direct from IMU (expected: ~ -300 to 300)
@@ -1141,14 +1141,17 @@ void scaleCommands() {
   m6_command_PWM = constrain(m6_command_PWM, 125, 250);
 
   //Scaled to 0-180 for servo library
-  // s1_command_PWM = s1_command_scaled*180;
-  s1_command_PWM = roll_PID*180; 
-  s2_command_PWM = s2_command_scaled*180;
+  //s1_command_PWM = s1_command_scaled*180;
+  s1_command_PWM = 90 + pitch_des*180; 
+  s2_command_PWM = 90 - pitch_des*180;
   s3_command_PWM = s3_command_scaled*180;
   s4_command_PWM = thro_des*180; //CHANGED TO TAKE MOTOR INPUT
   s5_command_PWM = s5_command_scaled*180;
   s6_command_PWM = s6_command_scaled*180;
   s7_command_PWM = s7_command_scaled*180;
+
+
+  //
   //Constrain commands to servos within servo library bounds
   s1_command_PWM = constrain(s1_command_PWM, 0, 180);
   s2_command_PWM = constrain(s2_command_PWM, 0, 180);

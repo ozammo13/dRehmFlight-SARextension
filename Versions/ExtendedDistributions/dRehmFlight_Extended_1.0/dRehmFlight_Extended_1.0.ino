@@ -6,6 +6,7 @@
  
  //Extended Version by:
  // -Tom Brothers
+ // -Caleb Hamlet
 //========================================================================================================================//
 
 //CREDITS + SPECIAL THANKS
@@ -1140,10 +1141,11 @@ void scaleCommands() {
   m6_command_PWM = constrain(m6_command_PWM, 125, 250);
 
   //Scaled to 0-180 for servo library
-  s1_command_PWM = s1_command_scaled*180;
+  // s1_command_PWM = s1_command_scaled*180;
+  s1_command_PWM = roll_PID*180; 
   s2_command_PWM = s2_command_scaled*180;
   s3_command_PWM = s3_command_scaled*180;
-  s4_command_PWM = m1_command_scaled*180;
+  s4_command_PWM = thro_des*180; //CHANGED TO TAKE MOTOR INPUT
   s5_command_PWM = s5_command_scaled*180;
   s6_command_PWM = s6_command_scaled*180;
   s7_command_PWM = s7_command_scaled*180;

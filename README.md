@@ -14,8 +14,7 @@ This code is entirely free to use and will stay that way forever. If you found t
 
 The flight controller has been edited to include the following features:
 
- - GPS waypoint navigation
-- Autonomous takeoff and landing
+ - GPS capabilities
 
 
 **New in Beta 1.3:**

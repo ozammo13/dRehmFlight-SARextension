@@ -241,7 +241,6 @@ PWMServo servo4;
 PWMServo servo5;
 PWMServo servo6;
 PWMServo servo7;
-PWMServo M1;
 
 
 
@@ -399,18 +398,18 @@ void loop() {
 
   //Print data at 100hz (uncomment one at a time for troubleshooting) - SELECT ONE:
   //printRadioData();     //Prints radio pwm values (expected: 1000 to 2000)
-  //printDesiredState();  //Prints desired vehicle state commanded in either degrees or deg/sec (expected: +/- maxAXIS for roll, pitch, yaw; 0 to 1 for throttle)
+  printDesiredState();  //Prints desired vehicle state commanded in either degrees or deg/sec (expected: +/- maxAXIS for roll, pitch, yaw; 0 to 1 for throttle)
   //printGyroData();      //Prints filtered gyro data direct from IMU (expected: ~ -250 to 250, 0 at rest)
   //printAccelData();     //Prints filtered accelerometer data direct from IMU (expected: ~ -2 to 2; x,y 0 when level, z 1 when level)
   //printMagData();       //Prints filtered magnetometer data direct from IMU (expected: ~ -300 to 300)
   //printRollPitchYaw();  //Prints roll, pitch, and yaw angles in degrees from Madgwick filter (expected: degrees, 0 when level)
   //printPIDoutput();     //Prints computed stabilized PID variables from controller and desired setpoint (expected: ~ -1 to 1)
- // printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
-  printServoCommands(); //Prints the values being written to the servos (expected: 0 to 180)
+  //printMotorCommands(); //Prints the values being written to the motors (expected: 120 to 250)
+  //printServoCommands(); //Prints the values being written to the servos (expected: 0 to 180)
   //printLoopRate();      //Prints the time between loops in microseconds (expected: microseconds between loop iterations)
 
   // Get arming status
-  //armedStatus(); //Check if the throttle cut is off and throttle is low.
+  armedStatus(); //Check if the throttle cut is off and throttle is low.
 
   //Get vehicle state
   getIMUdata(); //Pulls raw gyro, accelerometer, and magnetometer data from IMU and LP filters to remove noise
@@ -440,8 +439,7 @@ void loop() {
   servo5.write(s5_command_PWM);
   servo6.write(s6_command_PWM);
   servo7.write(s7_command_PWM);
-
-
+    
   //Get vehicle commands for next loop iteration
   getCommands(); //Pulls current available radio commands
   failSafe(); //Prevent failures in event of bad receiver connection, defaults to failsafe values assigned in setup
@@ -1145,7 +1143,7 @@ void scaleCommands() {
   s1_command_PWM = s1_command_scaled*180;
   s2_command_PWM = s2_command_scaled*180;
   s3_command_PWM = s3_command_scaled*180;
-  s4_command_PWM = s4_command_scaled*180;
+  s4_command_PWM = m1_command_scaled*180;
   s5_command_PWM = s5_command_scaled*180;
   s6_command_PWM = s6_command_scaled*180;
   s7_command_PWM = s7_command_scaled*180;
@@ -1157,7 +1155,6 @@ void scaleCommands() {
   s5_command_PWM = constrain(s5_command_PWM, 0, 180);
   s6_command_PWM = constrain(s6_command_PWM, 0, 180);
   s7_command_PWM = constrain(s7_command_PWM, 0, 180);
-
 
 }
 
@@ -1324,12 +1321,11 @@ void armMotors() {
    *  Loops over the commandMotors() function 50 times with a delay in between, simulating how the commandMotors()
    *  function is used in the main loop. Ensures motors arm within the void setup() where there are some delays
    *  for other processes that sometimes prevent motors from arming.
-  */
+   */
   for (int i = 0; i <= 50; i++) {
     commandMotors();
     delay(2);
   }
-  
 }
 
 void calibrateESCs() {
@@ -1469,13 +1465,12 @@ void throttleCut() {
     m4_command_PWM = 120;
     m5_command_PWM = 120;
     m6_command_PWM = 120;
-  
 
     //Uncomment if using servo PWM variables to control motor ESCs
     //s1_command_PWM = 0;
     //s2_command_PWM = 0;
     //s3_command_PWM = 0;
-    s4_command_PWM = 0;
+    //s4_command_PWM = 0;
     //s5_command_PWM = 0;
     //s6_command_PWM = 0;
     //s7_command_PWM = 0;

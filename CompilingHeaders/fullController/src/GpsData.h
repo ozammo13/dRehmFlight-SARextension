@@ -13,7 +13,7 @@ class GpsClass
     SoftwareSerial GpsSerial();
 
   private:
-  TinyGPSPlus gps;
+    TinyGPSPlus gps;
 };
 
 extern GpsClass GpsData;

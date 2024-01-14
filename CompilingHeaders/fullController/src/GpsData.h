@@ -2,6 +2,7 @@
 #define GpsData_h
 
 #include <TinyGPS++.h>
+#include <TinyGPSPlus.h>
 #include "Arduino.h"
 #include "SoftwareSerial.h"
 

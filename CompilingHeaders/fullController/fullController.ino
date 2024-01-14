@@ -1,13 +1,15 @@
 #include "src\GpsData.h"
 
- int run = 1;
+int run = 1;
 
 void setup() 
 {
-  Serial.begin(9600);
+  GpsData.GpsSerial();
+  GpsData.Setup();
 }
 
-void loop() {
+void loop() 
+{
   while (run == 1)
   {
     //Serial.print("poop");

@@ -4,25 +4,39 @@
 
 void GpsClass::Setup()
 {
-  GpsSerial = SoftwareSerial(0,1)
   GpsSerial.begin(9600);
   Serial.begin(9600);
 }
 
+void GpsClass::GpsSerial()
+{
+  RxPin = 0;
+  TxPin = 1;
+  GpsSerial = SoftwareSerial(RxPin,TxPin);
+  return GpsSerial;
+}
+
 void GpsClass::GpsDataCollection()
 {
-  while (GpsSerial.available() > 0){
+  if (GpsSerial.available() > 0)
+  {
     if (gps.encode(GPSSerial.read()))
     {
       if(gps.location.isValid())
       {
-        Serial.println("lattitude - ", gps.location.lat());
+        Latt = gps.location.lat();
+        Serial.print(F("lattitude - "));
+        Serial.println(gps.location.lat());
 
-        Serial.println("longitude - ", gps.location.lng());
+        Long = gps.location.lng();
+        Serial.print(F("longitude - "));
+        Serial.println(gps.location.lng());
 
         if(gps.altitude.isValid())
         {
-          Serial.println("altitude - ", gps.location.)
+          Alt = gps.altitude.meters();
+          Serial.print(F("altitude - "));
+          Serial.println(gps.altitude.meters());
         }
         else
         {
@@ -35,5 +49,6 @@ void GpsClass::GpsDataCollection()
       }
     }
   }
+  return Latt, Long, Alt;
 }
 #endif

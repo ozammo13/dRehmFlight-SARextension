@@ -1,10 +1,10 @@
 #include "src\GpsData.h"
 
 int run = 1;
+GpsData = GpsData();
 
 void setup() 
 {
-  GpsData.GpsSerial();
   GpsData.Setup();
 }
 

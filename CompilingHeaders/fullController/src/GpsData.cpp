@@ -1,25 +1,24 @@
-#ifdef GpsData_h
+#include "Arduino.h"
 #include "GpsData.h"
+#include <TinyGPSPlus.h>
+#include <SoftwareSerial.h>
 
-GpsClass::GpsClass()
+
+GpsData::GpsData(int RxPin, int TxPin)
 {
-  RxPin = 0;
-  TxPin = 1;
-  GpsSerial = SoftwareSerial(RxPin,TxPin);
-  return GpsSerial;
+ SoftwareSerial GpsSerial(RxPin,TxPin);
+
+}
+void GpsData::Setup(unsigned long SerialSpeed)
+{
+  GpsSerial.begin(SerialSpeed);
 }
 
-void GpsClass::Setup()
-{
-  GpsSerial.begin(9600);
-  Serial.begin(9600);
-}
-
-void GpsClass::GpsDataCollection()
+void GpsData::GpsDataCollection()
 {
   if (GpsSerial.available() > 0)
   {
-    if (gps.encode(GPSSerial.read()))
+    if (gps.encode(GpsSerial.read()))
     {
       if(gps.location.isValid())
       {
@@ -48,6 +47,4 @@ void GpsClass::GpsDataCollection()
       }
     }
   }
-  return Latt, Long, Alt;
 }
-#endif

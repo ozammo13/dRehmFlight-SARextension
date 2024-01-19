@@ -1,18 +1,12 @@
 #include "src\GpsData.h"
 
-int run = 1;
-GpsData = GpsData();
+GpsData gps(0, 1); // Define GPS pins
 
-void setup() 
+void setup()
 {
-  GpsData.Setup();
+  gps.Setup(9600); // Setup GPS
 }
-
-void loop() 
+void loop()
 {
-  while (run == 1)
-  {
-    //Serial.print("poop");
-    GpsData.GpsDataCollection();
-  }
+  gps.GpsDataCollection();
 }

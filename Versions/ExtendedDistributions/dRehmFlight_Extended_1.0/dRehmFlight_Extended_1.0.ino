@@ -65,6 +65,7 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 //REQUIRED LIBRARIES (included with download in main sketch folder)
 
 #include <Wire.h>     //I2c communication
+#include <SD.h>       //SD card writing
 #include <SPI.h>      //SPI communication
 #include <PWMServo.h> //Commanding any extra actuators, installed with teensyduino installer
 
@@ -147,6 +148,8 @@ static const uint8_t num_DSM_channels = 6; //If using DSM RX, change this to mat
 //========================================================================================================================//
 //                                               USER-SPECIFIED VARIABLES                                                 //                           
 //========================================================================================================================//
+const int ChipSelect = BUILTIN_SDCARD; //directs to the on board sd card
+
 
 //Radio failsafe values for every channel in the event that bad reciever data is detected. Recommended defaults:
 unsigned long channel_1_fs = 1000; //thro
@@ -311,6 +314,23 @@ bool armedFly = false;
 void setup() {
   Serial.begin(500000); //USB serial
   delay(500);
+
+  // check sd card is present during init, open sd card and create file
+  Serial.println(F("card initializing..."));
+  if (!SD.begin(ChipSelect)) {
+    Serial.println(F("No card present please retry"));
+    while (1)
+      ;
+  }
+  Serial.println("initialized.");
+
+  SD.remove("JsonLogs.json");
+
+  File FileInit = SD.open("JsonLogs.json", FILE_WRITE_BEGIN);
+  if (FileInit) {
+    FileInit.println("{");
+    FileInit.close();
+  }
   
   //Initialize all pins
   pinMode(13, OUTPUT); //Pin 13 LED blinker on board, do not modify 
@@ -455,7 +475,26 @@ void loop() {
 //                                                      FUNCTIONS                                                         //                           
 //========================================================================================================================//
 
+void SDCardWrite() {
+  Val = s1_command_PWM;
 
+  File DataFile = SD.open("JsonLogs.json", FILE_WRITE);
+  if (DataFile) {
+    DataFile.print("\t\"");
+    DataFile.print(TestDataKey);
+    DataFile.print("\" : \"");
+    DataFile.print(Val);
+    DataFile.println("\",");
+
+
+    TestDataKey += 1;
+
+  } 
+  else {
+    Serial.println(F("could not open the file"));
+  }
+
+}
 
 void controlMixer() {
   //DESCRIPTION: Mixes scaled commands from PID controller to actuator outputs based on vehicle configuration

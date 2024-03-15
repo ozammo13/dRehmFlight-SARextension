@@ -1,12 +1,18 @@
-#include "src\GpsData.h"
+#include "src/GpsData.h"
 
-GpsData gps(0, 1); // Define GPS pins
+int RxPin = 0;
+int TxPin = 1;
+
+GpsData gps(RxPin, TxPin); // Define GPS pins
 
 void setup()
 {
+  Serial.begin(9600);
+  Serial.println("noooooo");
   gps.Setup(9600); // Setup GPS
 }
+
 void loop()
 {
-  gps.GpsDataCollection();
+  Serial.println(gps.GpsDataCollection());
 }

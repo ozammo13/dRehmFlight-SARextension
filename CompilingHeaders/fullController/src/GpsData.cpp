@@ -14,10 +14,11 @@ void GpsData::Setup(unsigned long SerialSpeed)
   GpsSerial.begin(SerialSpeed);
 }
 
-void GpsData::GpsDataCollection()
+int GpsData::GpsDataCollection(int ValidOrNot, float Latt, float Long, float Alt)
 {
   if (GpsSerial.available() > 0)
   {
+    ValidOrNot = 1;
     if (gps.encode(GpsSerial.read()))
     {
       if(gps.location.isValid())
@@ -38,13 +39,17 @@ void GpsData::GpsDataCollection()
         }
         else
         {
+          ValidOrNot = 2;
           Serial.println(F("INVALID"));
         }
       }
       else
       {
+        ValidOrNot = 2;
         Serial.println(F("INVALID"));
       }
     }
   }
+  return ValidOrNot;
+
 }

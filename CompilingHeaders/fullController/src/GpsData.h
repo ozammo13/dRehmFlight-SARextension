@@ -15,13 +15,14 @@ class GpsData
   public:
     GpsData(int RxPin, int TxPin);
     void Setup(unsigned long SerialSpeed);
-    void GpsDataCollection();
+    int GpsDataCollection();
     TinyGPSPlus gps;
     SoftwareSerial GpsSerial = SoftwareSerial(0,1);
     //Variables
     float Latt;
     float Long;
     float Alt;
+    int ValidOrNot; // valid 1 = data being read, valid 2 = data not being read eg. invalid.
   private:
     int RxPin;
     int TxPin;
